@@ -16,15 +16,15 @@ jobs:
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github-deploy
+        chmod 600 ~/.ssh/github-deploy
         ssh-keyscan 45.79.123.206 >> ~/.ssh/known_hosts
     
     - name: Deploy over SSH
       run: |
-        ssh -i ~/.ssh/id_ed25519 ajay@45.79.123.206 << 'EOF'
-          cd ~/myapp
+        ssh -i ~/.ssh/github-deploy ajay@45.79.123.206 << 'EOF'
+          cd ~/my-node-app
           git pull origin main
           npm install
-          pm2 restart myapp
+          pm2 restart mynodeapp
         EOF
